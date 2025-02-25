@@ -5,7 +5,7 @@ using SerapKeremZenCoreTools._Game.AudioSystem;
 using TriInspector;
 using TMPro;
 
-namespace SerapKeremZenCoreTools._Game.Tests
+namespace SerapKeremZenCoreTools._Game.AudioSystem
 {
     /// <summary>
     /// A test class for the AudioManager to verify its functionality in a test scene.

@@ -2,12 +2,12 @@ using UnityEngine;
 using Zenject;
 using SerapKeremZenCoreTools._Game.AudioSystem;
 
-namespace SerapKeremZenCoreTools._Game._ZenjectInstaller
+namespace SerapKeremZenCoreTools._Game._AudioInstaller
 {
     /// <summary>
     /// Installer class for game systems using Zenject.
     /// </summary>
-    public class GameInstaller : MonoInstaller
+    public class  AudioInstaller : MonoInstaller
     {
         [SerializeField] private AudioManager _audioManager;
 
