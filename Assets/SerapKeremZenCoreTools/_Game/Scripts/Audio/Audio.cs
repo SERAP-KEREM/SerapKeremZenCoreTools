@@ -12,7 +12,6 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
     {
         #region Variables
 
-        [Required]
         [SerializeField]
         private string _name;
 

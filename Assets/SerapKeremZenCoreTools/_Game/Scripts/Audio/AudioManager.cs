@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TriInspector;
 using Zenject;
 using System.Linq;
+using SerapKeremZenCoreTools._Game.SaveLoadSystem;
 
 namespace SerapKeremZenCoreTools._Game.AudioSystem
 {
@@ -13,7 +14,7 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
     {
         #region Variables
 
-        [SerializeField, Required]
+        [SerializeField]
         [Group("Audio Settings")]
         private List<Audio> _audioList = new();
 
@@ -28,6 +29,8 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
         private List<AudioSource> _audioSources;
         private const string AUDIO_MUTE_KEY = "AudioMuted";
 
+        private LoadManager _loadManager;
+        private SaveManager _saveManager;
         #endregion
 
         #region Initialization
@@ -36,8 +39,10 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
         /// Constructor method for dependency injection.
         /// </summary>
         [Inject]
-        private void Construct()
+        private void Construct(LoadManager loadManager, SaveManager saveManager)
         {
+            _loadManager = loadManager;
+            _saveManager = saveManager;
             Initialize();
         }
 
@@ -47,7 +52,7 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
         public void Initialize()
         {
             _audioSources = new List<AudioSource>();
-            _isAudioMuted = PlayerPrefs.GetInt(AUDIO_MUTE_KEY, 0) == 1;
+            _isAudioMuted = _loadManager.LoadData<int>(AUDIO_MUTE_KEY, 0) == 1;
 
             // Create initial audio sources
             for (int i = 0; i < _maxAudioSources; i++)
@@ -162,8 +167,8 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
             set
             {
                 _isAudioMuted = value;
-                PlayerPrefs.SetInt(AUDIO_MUTE_KEY, _isAudioMuted ? 1 : 0);
-                PlayerPrefs.Save();
+                _saveManager.SaveData<int>(AUDIO_MUTE_KEY, _isAudioMuted ? 1 : 0);
+               
 
                 // Update all playing audio sources
                 foreach (var source in _audioSources)

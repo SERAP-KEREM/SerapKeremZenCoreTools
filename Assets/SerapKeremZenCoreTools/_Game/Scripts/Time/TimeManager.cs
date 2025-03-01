@@ -153,7 +153,7 @@ namespace SerapKeremZenCoreTools._Game.TimeSystem
         /// <summary>
         /// Pauses the game by setting the time scale to zero.
         /// </summary>
-        public void PauseGame()
+        public void PauseTime()
         {
             if (_isGamePaused) return;
 
@@ -164,7 +164,7 @@ namespace SerapKeremZenCoreTools._Game.TimeSystem
         /// <summary>
         /// Resumes the game by restoring the time scale to one.
         /// </summary>
-        public void ResumeGame()
+        public void ResumeTime()
         {
             if (!_isGamePaused) return;
 

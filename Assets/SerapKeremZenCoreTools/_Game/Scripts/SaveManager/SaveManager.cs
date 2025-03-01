@@ -50,7 +50,6 @@ namespace SerapKeremZenCoreTools._Game.SaveLoadSystem
                 PlayerPrefs.SetString(finalKey, finalValue);
                 PlayerPrefs.Save();
 
-                Debug.Log($"[SaveManager] Saved {typeof(T).Name} with key: {key}, value: {valueToSave}");
             }
             catch (Exception e)
             {
@@ -151,6 +150,11 @@ namespace SerapKeremZenCoreTools._Game.SaveLoadSystem
         private string EncryptValue(string value)
         {
             return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(value));
+        }
+
+        internal void SetFloat(string mUSIC_VOLUME_KEY, float volume)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -83,8 +83,8 @@ namespace SerapKeremZenCoreTools._Game.TimeSystem
             _addTimeButton.onClick.AddListener(() => _timeManager.AddTime(10f));
             _subtractTimeButton.onClick.AddListener(() => _timeManager.SubtractTime(10f));
             _freezeButton.onClick.AddListener(() => _timeManager.FreezeTimeForDuration(3f));
-            _pauseGameButton.onClick.AddListener(_timeManager.PauseGame);
-            _resumeGameButton.onClick.AddListener(_timeManager.ResumeGame);
+            _pauseGameButton.onClick.AddListener(_timeManager.PauseTime);
+            _resumeGameButton.onClick.AddListener(_timeManager.ResumeTime);
 
             UpdateTimerDisplay(_timeManager.GetCurrentTime(), _timeManager.GetMaxTime());
         }
@@ -142,8 +142,8 @@ namespace SerapKeremZenCoreTools._Game.TimeSystem
             if (_addTimeButton) _addTimeButton.onClick.RemoveListener(() => _timeManager.AddTime(10f));
             if (_subtractTimeButton) _subtractTimeButton.onClick.RemoveListener(() => _timeManager.SubtractTime(10f));
             if (_freezeButton) _freezeButton.onClick.RemoveListener(() => _timeManager.FreezeTimeForDuration(3f));
-            if (_pauseGameButton) _pauseGameButton.onClick.RemoveListener(_timeManager.PauseGame);
-            if (_resumeGameButton) _resumeGameButton.onClick.RemoveListener(_timeManager.ResumeGame);
+            if (_pauseGameButton) _pauseGameButton.onClick.RemoveListener(_timeManager.PauseTime);
+            if (_resumeGameButton) _resumeGameButton.onClick.RemoveListener(_timeManager.ResumeTime);
         }
 
         #endregion
