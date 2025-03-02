@@ -46,7 +46,12 @@ This package is designed to **modularly manage** commonly used systems (`Audio`,
 
 ### 🖥️ **UI Manager**  
 - Manages **gameplay UI, settings, win/lose screens**, and more.  
-- Provides methods to **toggle different UI panels** dynamically.  
+- Provides methods to **toggle different UI panels** dynamically.
+
+ ### 💾 **Save/Load System**
+Handles secure data saving and loading with encryption support.
+Supports player progress, settings, and game state persistence.
+Ensures automatic data backup and error handling for reliability.
 
 ### 🏆 **Level Manager**  
 - Controls **level progression**, win/lose conditions, and scene management.  
