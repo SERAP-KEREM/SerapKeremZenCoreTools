@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using TriInspector;
 using Zenject;
 using System.Linq;
+<<<<<<< Updated upstream
+=======
+using SerapKeremZenCoreTools._Game.SaveLoadSystem;
+using UnityEngine.Audio;
+>>>>>>> Stashed changes
 
 namespace SerapKeremZenCoreTools._Game.AudioSystem
 {
@@ -24,6 +29,20 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
         [Group("Audio Settings")]
         [ShowInInspector, ReadOnly]
         private bool _isAudioMuted;
+
+        [Group("Audio Mixer")]
+        [SerializeField, Tooltip("The Audio Mixer for managing sound groups.")]
+        private AudioMixer _audioMixer;
+
+        [Group("Audio Mixer Parameters")]
+        [SerializeField, Tooltip("Parameter name for master volume.")]
+        private string _masterVolumeParam = "Master";
+
+        [SerializeField, Tooltip("Parameter name for music volume.")]
+        private string _musicVolumeParam = "MusicVolume";
+
+        [SerializeField, Tooltip("Parameter name for SFX volume.")]
+        private string _sfxVolumeParam = "SfxVolume";
 
         private List<AudioSource> _audioSources;
         private const string AUDIO_MUTE_KEY = "AudioMuted";
@@ -48,6 +67,10 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
         {
             _audioSources = new List<AudioSource>();
             _isAudioMuted = PlayerPrefs.GetInt(AUDIO_MUTE_KEY, 0) == 1;
+
+            SetVolume("Master", 1f);
+            SetVolume("Music", 0.8f);
+            SetVolume("Sfx", 1f); 
 
             // Create initial audio sources
             for (int i = 0; i < _maxAudioSources; i++)
@@ -129,29 +152,37 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
         }
 
         /// <summary>
-        /// Sets the volume of a specific sound.
+        /// Sets the volume of a specific sound group using the Audio Mixer.
         /// </summary>
-        /// <param name="audioName">The name of the audio.</param>
+        /// <param name="volumeType">The type of volume to adjust (e.g., Master, Music, Sfx).</param>
         /// <param name="volume">The new volume level (0 to 1).</param>
-        public void SetVolume(string audioName, float volume)
+        public void SetVolume(string volumeType, float volume)
         {
-            var audio = _audioList.FirstOrDefault(a => a.Name == audioName);
-            if (audio == null)
-                return;
-
-            var playingSources = _audioSources.Where(source =>
-                source.isPlaying && source.clip != null &&
-                audio.Clips.Contains(source.clip));
-
-            foreach (var source in playingSources)
+            if (_audioMixer == null)
             {
-                source.volume = volume * (IsAudioMuted ? 0 : 1);
+                Debug.LogWarning("AudioMixer is not assigned.");
+                return;
+            }
+
+            string parameterName = volumeType switch
+            {
+                "Master" => _masterVolumeParam,
+                "Music" => _musicVolumeParam,
+                "Sfx" => _sfxVolumeParam,
+                _ => null
+            };
+
+            if (parameterName != null)
+            {
+                _audioMixer.SetFloat(parameterName, Mathf.Log10(volume) * 20); // Linear to decibels conversion
             }
         }
+
 
         #endregion
 
         #region Mute Management
+
 
         /// <summary>
         /// Gets or sets whether the audio is muted.
@@ -162,8 +193,12 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
             set
             {
                 _isAudioMuted = value;
+<<<<<<< Updated upstream
                 PlayerPrefs.SetInt(AUDIO_MUTE_KEY, _isAudioMuted ? 1 : 0);
                 PlayerPrefs.Save();
+=======
+                _saveManager.SaveData<int>(AUDIO_MUTE_KEY, _isAudioMuted ? 1 : 0);
+>>>>>>> Stashed changes
 
                 // Update all playing audio sources
                 foreach (var source in _audioSources)
@@ -172,6 +207,12 @@ namespace SerapKeremZenCoreTools._Game.AudioSystem
                     {
                         source.volume = source.volume * (_isAudioMuted ? 0 : 1);
                     }
+                }
+
+                // Update Audio Mixer master volume
+                if (_audioMixer != null)
+                {
+                    _audioMixer.SetFloat(_masterVolumeParam, _isAudioMuted ? -80f : 0f); // -80f is effectively silent
                 }
             }
         }
